@@ -1,0 +1,19 @@
+node_modules/
+dist/
+__pycache__/
+*.pyc
+*.log
+.env
+.env.*
+token*.json
+gcp-oauth.keys.json
+credentials.json
+
+# crawl/debug artifacts
+_*.html
+minutes_snippet.txt
+players.tsv
+*.csv
+
+# unrelated local folder
+2021147566-profile/
