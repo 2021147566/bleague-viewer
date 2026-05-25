@@ -43,6 +43,20 @@ function teamList(conf) {
     .map((id) => ({ id, conference: conf, ...ROSTERS.teams[id] }));
 }
 
+function hexLuminance(hex) {
+  if (!hex || !hex.startsWith("#") || hex.length < 7) return 1;
+  const r = parseInt(hex.slice(1, 3), 16) / 255;
+  const g = parseInt(hex.slice(3, 5), 16) / 255;
+  const b = parseInt(hex.slice(5, 7), 16) / 255;
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+
+/** 카드 테두리/글로우용 — accent가 너무 어두우면 primary 사용 */
+function cardHighlight(team) {
+  const accent = team.accent || team.primary || "#F59E0B";
+  return hexLuminance(accent) < 0.15 ? (team.primary || "#F59E0B") : accent;
+}
+
 const STARTER_COUNT = 5;
 const BENCH_COUNT = 4;
 const ROTATION_COUNT = STARTER_COUNT + BENCH_COUNT;
@@ -127,17 +141,18 @@ function PlayerCard({ player, team, idx, sortBy, role }) {
     ? (player.minutes_total || "-")
     : (player.minutes_avg || "-");
   const pos = player.position || "-";
+  const hi = cardHighlight(team);
 
   const cardStyle = (() => {
     if (role === "starter") {
       return {
-        border: `5px solid ${team.accent}`,
-        boxShadow: `0 0 28px ${team.accent}aa, 0 0 56px ${team.accent}44`,
+        border: `5px solid ${hi}`,
+        boxShadow: `0 0 28px ${hi}aa, 0 0 56px ${hi}44`,
       };
     }
     if (role === "bench") {
       return {
-        border: `1px dashed ${team.accent}77`,
+        border: `1px dashed ${hi}77`,
         boxShadow: "none",
       };
     }
@@ -151,7 +166,7 @@ function PlayerCard({ player, team, idx, sortBy, role }) {
       display: "flex", flexDirection: "column", opacity: show ? 1 : 0, transform: show ? "translateY(0)" : "translateY(14px)",
       transition: "opacity .28s, transform .28s, border .2s, box-shadow .2s", cursor: "pointer",
     }} onMouseEnter={(e) => {
-      if (role === "starter") e.currentTarget.style.boxShadow = `0 0 36px ${team.accent}cc, 0 0 64px ${team.accent}55`;
+      if (role === "starter") e.currentTarget.style.boxShadow = `0 0 36px ${hi}cc, 0 0 64px ${hi}55`;
     }}
        onMouseLeave={(e) => {
          e.currentTarget.style.border = cardStyle.border;
@@ -178,6 +193,12 @@ function PlayerCard({ player, team, idx, sortBy, role }) {
           </span>
         </div>
         <div style={{ marginTop: "4px", fontSize: "11px", color: "#64748B" }}>{flag} {player.name_en || ""}</div>
+        {role === "starter" && (
+          <div style={{ marginTop: "6px", fontSize: "10px", fontWeight: 800, color: hi, letterSpacing: "0.04em" }}>주전</div>
+        )}
+        {role === "bench" && (
+          <div style={{ marginTop: "6px", fontSize: "10px", fontWeight: 700, color: `${hi}aa`, letterSpacing: "0.04em" }}>벤치</div>
+        )}
       </div>
     </a>
   );
