@@ -28,7 +28,7 @@ MIN_GAMES = 5
 
 WEST_ORDER = [
     "shinshu", "sanen", "mikawa", "nagoya_dd", "shiga", "kyoto", "osaka",
-    "kobe", "shimane", "hiroshima", "saga", "nagasaki", "ryukyu",
+    "kobe", "shimane", "hiroshima", "saga", "nagasaki", "ryukyu", "toyama", "fighting_eagles",
 ]
 
 EAST_ORDER = [
@@ -64,6 +64,7 @@ TEAM_NAME_EN = {
     "saga": "Saga Ballooners",
     "nagasaki": "Nagasaki Velca",
     "ryukyu": "Ryukyu Golden Kings",
+    "fighting_eagles": "Fighting Eagles Nagoya",
 }
 
 RESEARCH_COLS = 8

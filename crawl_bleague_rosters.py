@@ -34,7 +34,6 @@ EAST_TEAMS = [
     ("kawasaki",     727,  "kb", "가와사키 브레이브 썬더스",   "#003893", "#FDB913"),
     ("yokohama",     694,  "yb", "요코하마 B-코세ars",        "#002D62", "#C8102E"),
     ("koshigaya",    745,  "ka", "고시가야 알파스",            "#001489", "#FF6900"),
-    ("toyama",       696,  "tg", "도야마 그라우지스",          "#FF6600", "#1A1A1A"),
 ]
 
 WEST_TEAMS = [
@@ -51,6 +50,8 @@ WEST_TEAMS = [
     ("saga",      1638, "sg", "사가 발루너스",             "#1A4BA3", "#FB923C", "west"),
     ("nagasaki",  2488, "nv", "나가사키 벨카",             "#1B3FA0", "#FFFFFF", "west"),
     ("ryukyu",    701,  "rg", "류큐 골든킹스",             "#003087", "#FFD700", "west"),
+    ("toyama",    696,  "tg", "도야마 그라우지스",          "#FF6600", "#FFFFFF", "west"),
+    ("fighting_eagles", 717, "fe", "파이팅 이글스 나고야",   "#003087", "#FFFFFF", "west"),
 ]
 
 TEAMS = [

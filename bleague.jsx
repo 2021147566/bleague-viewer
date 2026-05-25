@@ -24,7 +24,7 @@ const CONFERENCES = {
     label: "서부",
     order: [
       "shinshu", "sanen", "mikawa", "nagoya_dd", "shiga", "kyoto", "osaka",
-      "kobe", "shimane", "hiroshima", "saga", "nagasaki", "ryukyu",
+      "kobe", "shimane", "hiroshima", "saga", "nagasaki", "ryukyu", "toyama", "fighting_eagles",
     ],
   },
 };
@@ -55,6 +55,7 @@ function hexLuminance(hex) {
 const TEAM_CARD_HIGHLIGHT = {
   gunma: "#38BDF8",
   utsunomiya: "#FDB913",
+  toyama: "#FF6600",
 };
 
 /** 카드 테두리/글로우용 — accent가 너무 어두우면 primary 또는 팀별 지정색 */
