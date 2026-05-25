@@ -51,8 +51,17 @@ function hexLuminance(hex) {
   return 0.2126 * r + 0.7152 * g + 0.0722 * b;
 }
 
-/** 카드 테두리/글로우용 — accent가 너무 어두우면 primary 사용 */
+/** 팀별 카드 테두리 강조색 (어두운 accent 보정) */
+const TEAM_CARD_HIGHLIGHT = {
+  gunma: "#38BDF8",
+  utsunomiya: "#FDB913",
+};
+
+/** 카드 테두리/글로우용 — accent가 너무 어두우면 primary 또는 팀별 지정색 */
 function cardHighlight(team) {
+  if (team.id && TEAM_CARD_HIGHLIGHT[team.id]) {
+    return TEAM_CARD_HIGHLIGHT[team.id];
+  }
   const accent = team.accent || team.primary || "#F59E0B";
   return hexLuminance(accent) < 0.15 ? (team.primary || "#F59E0B") : accent;
 }
@@ -147,7 +156,7 @@ function PlayerCard({ player, team, idx, sortBy, role }) {
     if (role === "starter") {
       return {
         border: `5px solid ${hi}`,
-        boxShadow: `0 0 28px ${hi}aa, 0 0 56px ${hi}44`,
+        boxShadow: `0 0 32px ${hi}, 0 0 64px ${hi}88`,
       };
     }
     if (role === "bench") {
