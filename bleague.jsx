@@ -70,22 +70,6 @@ function cardHighlight(team) {
   return hexLuminance(accent) < 0.15 ? (team.primary || "#F59E0B") : accent;
 }
 
-/** 벤치 카드용 긴 점선 테두리 (dash 14px / gap 8px) */
-function benchDashWrapStyle(hi) {
-  const c = `${hi}bb`;
-  const seg = "14px 22px";
-  return {
-    padding: "2px",
-    borderRadius: "12px",
-    background: [
-      `repeating-linear-gradient(90deg, ${c} 0 ${seg}) top / 100% 2px repeat-x`,
-      `repeating-linear-gradient(90deg, ${c} 0 ${seg}) bottom / 100% 2px repeat-x`,
-      `repeating-linear-gradient(0deg, ${c} 0 ${seg}) left / 2px 100% repeat-y`,
-      `repeating-linear-gradient(0deg, ${c} 0 ${seg}) right / 2px 100% repeat-y`,
-    ].join(", "),
-  };
-}
-
 const STARTER_COUNT = 5;
 const BENCH_COUNT = 4;
 const ROTATION_COUNT = STARTER_COUNT + BENCH_COUNT;
@@ -182,7 +166,10 @@ function PlayerCard({ player, team, idx, sortBy, role }) {
       };
     }
     if (role === "bench") {
-      return { border: "none", boxShadow: "none" };
+      return {
+        border: `2px dashed ${hi}`,
+        boxShadow: "none",
+      };
     }
     return { border: "1px solid #1E293B", boxShadow: "none" };
   })();
@@ -241,9 +228,6 @@ function PlayerCard({ player, team, idx, sortBy, role }) {
     </a>
   );
 
-  if (role === "bench") {
-    return <div style={benchDashWrapStyle(hi)}>{card}</div>;
-  }
   return card;
 }
 
