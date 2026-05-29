@@ -70,6 +70,22 @@ function cardHighlight(team) {
   return hexLuminance(accent) < 0.15 ? (team.primary || "#F59E0B") : accent;
 }
 
+/** 벤치 카드용 긴 점선 테두리 (dash 14px / gap 8px) */
+function benchDashWrapStyle(hi) {
+  const c = `${hi}bb`;
+  const seg = "14px 22px";
+  return {
+    padding: "2px",
+    borderRadius: "12px",
+    background: [
+      `repeating-linear-gradient(90deg, ${c} 0 ${seg}) top / 100% 2px repeat-x`,
+      `repeating-linear-gradient(90deg, ${c} 0 ${seg}) bottom / 100% 2px repeat-x`,
+      `repeating-linear-gradient(0deg, ${c} 0 ${seg}) left / 2px 100% repeat-y`,
+      `repeating-linear-gradient(0deg, ${c} 0 ${seg}) right / 2px 100% repeat-y`,
+    ].join(", "),
+  };
+}
+
 const STARTER_COUNT = 5;
 const BENCH_COUNT = 4;
 const ROTATION_COUNT = STARTER_COUNT + BENCH_COUNT;
@@ -166,15 +182,12 @@ function PlayerCard({ player, team, idx, sortBy, role }) {
       };
     }
     if (role === "bench") {
-      return {
-        border: `1px dashed ${hi}77`,
-        boxShadow: "none",
-      };
+      return { border: "none", boxShadow: "none" };
     }
     return { border: "1px solid #1E293B", boxShadow: "none" };
   })();
 
-  return (
+  const card = (
     <a href={player.profile_url} target="_blank" rel="noopener noreferrer" style={{
       borderRadius: "10px", overflow: "hidden", textDecoration: "none", background: "#0F172A", border: cardStyle.border,
       boxShadow: cardStyle.boxShadow,
@@ -227,17 +240,27 @@ function PlayerCard({ player, team, idx, sortBy, role }) {
       </div>
     </a>
   );
+
+  if (role === "bench") {
+    return <div style={benchDashWrapStyle(hi)}>{card}</div>;
+  }
+  return card;
 }
 
 export default function App() {
   const [conf, setConf] = useState("west");
   const [sortBy, setSortBy] = useState("avg_min");
   const teams = useMemo(() => teamList(conf), [conf]);
-  const [selId, setSelId] = useState("shinshu");
+  const [selId, setSelId] = useState("nagasaki");
 
   useEffect(() => {
     const list = teamList(conf);
-    setSelId((prev) => (list.some((t) => t.id === prev) ? prev : list[0]?.id ?? ""));
+    const fallback = conf === "west" ? "nagasaki" : list[0]?.id;
+    setSelId((prev) => {
+      if (list.some((t) => t.id === prev)) return prev;
+      if (fallback && list.some((t) => t.id === fallback)) return fallback;
+      return list[0]?.id ?? "";
+    });
   }, [conf]);
 
   const sel = teams.find((t) => t.id === selId) ?? teams[0];
