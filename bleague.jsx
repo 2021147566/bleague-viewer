@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import ROSTERS from "./bleague-rosters.json";
+import PLAYER_CLUSTERS from "./player_clusters.json";
 
 const POS_COLOR = { PG: "#3B82F6", SG: "#8B5CF6", SF: "#10B981", PF: "#F97316", C: "#EF4444" };
 const NAT_FLAG = {
@@ -154,6 +155,8 @@ function PlayerCard({ player, team, idx, sortBy, role }) {
     : (player.minutes_avg || "-");
   const pos = player.position || "-";
   const hi = cardHighlight(team);
+  const clusterName = PLAYER_CLUSTERS.by_player_id?.[player.player_id] || "";
+  const headerLabel = clusterName || team.name_korean;
 
   const cardStyle = (() => {
     if (role === "starter") {
@@ -184,10 +187,20 @@ function PlayerCard({ player, team, idx, sortBy, role }) {
          e.currentTarget.style.border = cardStyle.border;
          e.currentTarget.style.boxShadow = cardStyle.boxShadow;
        }}>
-      <div style={{ background: team.primary, padding: "6px 10px", display: "flex", alignItems: "center", gap: "8px", borderBottom: `2px solid ${team.accent}55` }}>
+      <div style={{ background: team.primary, padding: "6px 10px", display: "flex", alignItems: "center", gap: "8px", borderBottom: `2px solid ${team.accent}55`, minHeight: clusterName ? "40px" : undefined }}>
         <img src={team.logo_url} alt="" style={{ width: 22, height: 22, objectFit: "contain", flexShrink: 0 }} />
-        <span style={{ color: team.accent, fontSize: "11px", fontWeight: 700, flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{team.name_korean}</span>
-        <span style={{ color: team.accent, fontSize: "12px", fontWeight: 800 }}>#{player.number}</span>
+        <span style={{
+          color: team.accent,
+          fontSize: clusterName ? "10px" : "11px",
+          fontWeight: 700,
+          flex: 1,
+          lineHeight: 1.25,
+          display: "-webkit-box",
+          WebkitLineClamp: 2,
+          WebkitBoxOrient: "vertical",
+          overflow: "hidden",
+        }} title={headerLabel}>{headerLabel}</span>
+        <span style={{ color: team.accent, fontSize: "12px", fontWeight: 800, flexShrink: 0 }}>#{player.number}</span>
       </div>
       <div style={{ height: "172px", overflow: "hidden", background: "#0a0f1a" }}>
         {hasPhoto ? (
