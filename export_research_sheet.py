@@ -26,14 +26,16 @@ BENCH_COUNT = 4
 ROTATION_COUNT = STARTER_COUNT + BENCH_COUNT
 MIN_GAMES = 5
 
+# B1 2025-26 정규리그 최종 순위 (동·서 각 13팀, 1위→13위)
 WEST_ORDER = [
-    "shinshu", "sanen", "mikawa", "nagoya_dd", "shiga", "kyoto", "osaka",
-    "kobe", "shimane", "hiroshima", "saga", "nagasaki", "ryukyu", "toyama", "fighting_eagles",
+    "nagasaki", "mikawa", "ryukyu", "nagoya_dd", "sanen", "saga", "hiroshima", "shimane",
+    "osaka", "shiga", "kyoto", "toyama", "fighting_eagles",
+    "shinshu", "kobe",
 ]
 
 EAST_ORDER = [
-    "levanga", "sendai", "akita", "ibaraki", "utsunomiya", "gunma", "altiri_chiba",
-    "chiba_jets", "alvark_tokyo", "sun_rockers", "kawasaki", "yokohama", "koshigaya",
+    "utsunomiya", "chiba_jets", "gunma", "alvark_tokyo", "levanga", "sendai",
+    "yokohama", "sun_rockers", "koshigaya", "altiri_chiba", "ibaraki", "kawasaki", "akita",
 ]
 
 TEAM_NAME_EN = {

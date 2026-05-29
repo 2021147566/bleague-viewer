@@ -12,19 +12,21 @@ const NAT_FLAG = {
   Greece: "🇬🇷", Finland: "🇫🇮", Senegal: "🇸🇳", Bahamas: "🇧🇸",
 };
 
+// B1 2025-26 정규리그 최종 순위 (bleague.jp / りそな B.LEAGUE 2025-26)
 const CONFERENCES = {
   east: {
     label: "동부",
     order: [
-      "levanga", "sendai", "akita", "ibaraki", "utsunomiya", "gunma", "altiri_chiba",
-      "chiba_jets", "alvark_tokyo", "sun_rockers", "kawasaki", "yokohama", "koshigaya",
+      "utsunomiya", "chiba_jets", "gunma", "alvark_tokyo", "levanga", "sendai",
+      "yokohama", "sun_rockers", "koshigaya", "altiri_chiba", "ibaraki", "kawasaki", "akita",
     ],
   },
   west: {
     label: "서부",
     order: [
-      "shinshu", "sanen", "mikawa", "nagoya_dd", "shiga", "kyoto", "osaka",
-      "kobe", "shimane", "hiroshima", "saga", "nagasaki", "ryukyu", "toyama", "fighting_eagles",
+      "nagasaki", "mikawa", "ryukyu", "nagoya_dd", "sanen", "saga", "hiroshima", "shimane",
+      "osaka", "shiga", "kyoto", "toyama", "fighting_eagles",
+      "shinshu", "kobe", // B1 서부 2025-26 순위표 외 (데이터 유지)
     ],
   },
 };

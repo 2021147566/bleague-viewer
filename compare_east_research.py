@@ -11,6 +11,7 @@ from export_research_sheet import (
     HEADER_GRAY,
     ORIGINAL_SHEET,
     SPREADSHEET_ID,
+    TEAM_NAME_EN,
     TEAM_NAME_GREEN,
     build_rows,
     get_sheets_creds,
@@ -100,10 +101,13 @@ def build_compare_rows(theirs_map: dict, ours_map: dict) -> list[list]:
     theirs_teams = team_player_maps(theirs_map)
     ours_teams = team_player_maps(ours_map)
 
-    team_order = sorted(
-        theirs_teams.keys(),
-        key=lambda t: team_roster_ordered(theirs_map, t)[0]["team"] if team_roster_ordered(theirs_map, t) else t,
-    )
+    team_order: list[str] = []
+    for tid in EAST_ORDER:
+        tn = norm_team(TEAM_NAME_EN.get(tid, tid))
+        if tn in theirs_teams:
+            team_order.append(tn)
+    for tn in sorted(set(theirs_teams) - set(team_order)):
+        team_order.append(tn)
     only_ours = sorted(set(ours_teams) - set(theirs_teams))
 
     counts = {MARK_SAME: 0, MARK_TIER: 0, MARK_NONE: 0}
