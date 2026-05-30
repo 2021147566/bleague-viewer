@@ -4,6 +4,7 @@ import {
   scoreAllTeams,
   buildReportAll,
   applyPreset,
+  byId,
 } from "./engine.js";
 import {
   renderOverviewAcademic,
@@ -170,7 +171,7 @@ function bindCalcEvents(root) {
   });
 
   ["expectedMpg", "candidateName", ...m.baseline.statFields].forEach((id) => {
-    const el = root.querySelector(`#${id}`);
+    const el = byId(root, id);
     if (el) el.addEventListener("input", run);
   });
 

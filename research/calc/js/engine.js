@@ -68,10 +68,15 @@ function normalizePctField(name, val) {
   return v;
 }
 
+/** id에 % 등 CSS 특수문자가 있어도 안전하게 조회 */
+function byId(root, id) {
+  return root.querySelector(`[id="${CSS.escape(id)}"]`);
+}
+
 function readStatsFromForm(fields, root) {
   const stats = {};
   for (const f of fields) {
-    const el = root.querySelector(`#${f}`);
+    const el = byId(root, f);
     stats[f] = normalizePctField(f, el?.value ?? 0);
   }
   const name = root.querySelector("#candidateName")?.value?.trim() || "후보";
@@ -212,10 +217,10 @@ async function loadBaseline(preloaded) {
 }
 
 function fillFormFromCandidate(candidate, statFields, root) {
-  root.querySelector("#candidateName").value = candidate.name;
-  root.querySelector("#expectedMpg").value = candidate.avg_MPG ?? 28;
+  byId(root, "candidateName").value = candidate.name;
+  byId(root, "expectedMpg").value = candidate.avg_MPG ?? 28;
   for (const f of statFields) {
-    const el = root.querySelector(`#${f}`);
+    const el = byId(root, f);
     if (el && candidate[f] != null) el.value = candidate[f];
   }
 }
@@ -236,4 +241,5 @@ export {
   fillFormFromCandidate,
   applyPreset,
   mpgSlotKey,
+  byId,
 };
