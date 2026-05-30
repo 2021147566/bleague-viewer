@@ -25,7 +25,14 @@ export default function CalcPage() {
 
         <div className="layout">
           <section className="panel inputs">
-            <h2>후보 입력</h2>
+            <div className="inputs-head">
+              <h2>후보 입력</h2>
+              <div className="actions">
+                <button type="button" id="btnCalc" className="primary">
+                  재계산
+                </button>
+              </div>
+            </div>
             <label className="field wide">
               <span>선수명</span>
               <input type="text" id="candidateName" />
@@ -47,12 +54,6 @@ export default function CalcPage() {
 
             <h3>Role Load stat</h3>
             <div id="statGrid" className="stat-grid" />
-
-            <div className="actions">
-              <button type="button" id="btnCalc" className="primary">
-                재계산
-              </button>
-            </div>
           </section>
 
           <section className="panel output">

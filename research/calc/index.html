@@ -18,7 +18,10 @@
     </header>
     <div class="layout">
       <section class="panel inputs">
-        <h2>후보 입력</h2>
+        <div class="inputs-head">
+          <h2>후보 입력</h2>
+          <div class="actions"><button type="button" id="btnCalc" class="primary">재계산</button></div>
+        </div>
         <label class="field wide"><span>선수명</span><input type="text" id="candidateName" /></label>
         <label class="field"><span>예상 MPG (18~36)</span><input type="number" id="expectedMpg" min="18" max="36" step="0.1" value="27" /></label>
         <h3>프리셋</h3>
@@ -28,7 +31,6 @@
         </div>
         <h3>Role Load stat</h3>
         <div id="statGrid" class="stat-grid"></div>
-        <div class="actions"><button type="button" id="btnCalc" class="primary">재계산</button></div>
       </section>
       <section class="panel output">
         <div class="output-toolbar">
