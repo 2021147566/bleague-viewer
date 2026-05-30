@@ -140,11 +140,6 @@ button.preset { font-size: 0.88rem; background: #1e2a3d; }
 
 .actions { margin-top: 0; }
 
-button.primary {
-  font-weight: 700;
-  padding: 0.45rem 0.9rem;
-}
-
 /* ── Output toolbar ── */
 .output-toolbar {
   display: flex;
