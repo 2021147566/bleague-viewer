@@ -10,11 +10,10 @@ export default function AppShell() {
     <div className="site-shell">
       <header className="site-nav">
         <NavLink to="/" className="site-brand">
-          <span className="icon">🏀</span>
-          <span>
-            삼성 × B.League
-            <small>로컬 도구 · API 없음</small>
+          <span className="icon" aria-hidden="true">
+            🏀
           </span>
+          <span className="site-brand-text">삼성 × B.League</span>
         </NavLink>
         <nav className="site-nav-links" aria-label="주 메뉴">
           {LINKS.map(({ to, label, end }) => (

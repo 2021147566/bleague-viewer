@@ -7,21 +7,21 @@
 }
 
 .calc-app .calc-hero {
-  padding: 1.1rem 1.5rem 0.85rem;
+  padding: 0.75rem 1.25rem 0.65rem;
   border-bottom: 1px solid var(--border);
   background: linear-gradient(180deg, var(--bg-elevated), var(--bg));
 }
 
 .calc-app .calc-hero h1 {
-  margin: 0 0 0.25rem;
-  font-size: 1.35rem;
+  margin: 0 0 0.15rem;
+  font-size: 1.15rem;
   font-weight: 800;
 }
 
 .calc-app .calc-hero p {
   margin: 0;
   color: var(--text-dim);
-  font-size: 0.88rem;
+  font-size: 0.8rem;
 }
 
 .calc-error {
@@ -31,23 +31,27 @@
 
 .calc-app .layout {
   display: grid;
-  grid-template-columns: 360px 1fr;
+  grid-template-columns: minmax(380px, 420px) minmax(0, 1fr);
   gap: 1rem;
-  padding: 1rem 1.5rem 2rem;
-  max-width: 1480px;
+  padding: 1rem 1.25rem 2rem;
+  max-width: 1600px;
   margin: 0 auto;
   align-items: start;
 }
 
 @media (max-width: 960px) {
-  .layout { grid-template-columns: 1fr; }
+  .layout {
+    grid-template-columns: 1fr;
+  }
 }
 
 .calc-app .panel {
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 1rem 1.25rem;
+  padding: 1rem 1.1rem;
+  min-width: 0;
+  overflow: visible;
 }
 
 .panel h2 { margin-top: 0; font-size: 1.05rem; }
@@ -58,9 +62,16 @@
   flex-direction: column;
   gap: 0.25rem;
   margin-bottom: 0.65rem;
+  min-width: 0;
 }
 .field.wide { grid-column: 1 / -1; }
-.field span { font-size: 0.78rem; color: var(--muted); }
+.field span {
+  font-size: 0.76rem;
+  color: var(--muted);
+  line-height: 1.25;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
 
 .calc-app input,
 .calc-app select,
@@ -73,6 +84,12 @@
   padding: 0.48rem 0.65rem;
 }
 
+.calc-app input,
+.calc-app select {
+  width: 100%;
+  min-width: 0;
+}
+
 button { cursor: pointer; background: #243044; }
 button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
 button:hover { filter: brightness(1.08); }
@@ -82,8 +99,20 @@ button.preset { font-size: 0.88rem; background: #1e2a3d; }
 
 .stat-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.45rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem 0.65rem;
+}
+
+@media (max-width: 960px) {
+  .stat-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .stat-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 .actions { margin-top: 0.75rem; }
@@ -173,7 +202,14 @@ button.preset { font-size: 0.88rem; background: #1e2a3d; }
 .tab-verdict.bad { color: var(--bad); }
 
 /* ── Result view ── */
-.result-view { min-height: 320px; }
+.calc-app .panel.output {
+  overflow-x: auto;
+}
+
+.result-view {
+  min-height: 320px;
+  min-width: 0;
+}
 
 .view-section {
   margin-bottom: 1.25rem;

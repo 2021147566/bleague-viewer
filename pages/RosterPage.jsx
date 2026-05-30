@@ -199,7 +199,7 @@ function PlayerCard({ player, team, idx, sortBy, role }) {
         }} title={headerLabel}>{headerLabel}</span>
         <span style={{ color: team.accent, fontSize: "12px", fontWeight: 800, flexShrink: 0 }}>#{player.number}</span>
       </div>
-      <div style={{ height: "172px", overflow: "hidden", background: "#0a0f1a" }}>
+      <div style={{ height: "200px", overflow: "hidden", background: "#0a0f1a" }}>
         {hasPhoto ? (
           <img src={player.photo_url} alt={player.name_korean} loading="lazy" onError={() => setImgErr(true)}
             style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center" }} />
@@ -323,7 +323,7 @@ export default function RosterPage() {
           </div>
 
           <div style={{ padding: "20px 22px" }}>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(155px, 1fr))", gap: "12px" }}>
+            <div className="roster-player-grid">
               {players.map((pl, i) => (
                 <PlayerCard key={pl.player_id} player={pl} team={sel} idx={i} sortBy={sortBy} role={playerRole(pl.player_id)} />
               ))}
