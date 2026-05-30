@@ -1,6 +1,22 @@
 import { useState, useMemo, useEffect } from "react";
-import ROSTERS from "../bleague-rosters.json";
 import PLAYER_CLUSTERS from "../player_clusters.json";
+import { useRosterConference } from "../RosterConferenceContext.jsx";
+import { CONFERENCES, ROSTERS, teamList } from "../rosterConfig.js";
+
+const SORTS = {
+  avg_min: { label: "평균 시간", timeKey: "minutes_avg", secKey: "minutes_avg_sec", desc: true },
+  total_min: { label: "총 시간", timeKey: "minutes_total", secKey: "minutes_total_sec", desc: true },
+  number: { label: "등번호", secKey: "number", desc: false },
+  name: { label: "이름", secKey: "name_korean", desc: false },
+};
+
+function hexLuminance(hex) {
+  if (!hex || !hex.startsWith("#") || hex.length < 7) return 1;
+  const r = parseInt(hex.slice(1, 3), 16) / 255;
+  const g = parseInt(hex.slice(3, 5), 16) / 255;
+  const b = parseInt(hex.slice(5, 7), 16) / 255;
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
 
 const POS_COLOR = { PG: "#3B82F6", SG: "#8B5CF6", SF: "#10B981", PF: "#F97316", C: "#EF4444" };
 const NAT_FLAG = {
@@ -12,46 +28,6 @@ const NAT_FLAG = {
   Poland: "🇵🇱", Georgia: "🇬🇪", UK: "🇬🇧", Mexico: "🇲🇽", Argentina: "🇦🇷",
   Greece: "🇬🇷", Finland: "🇫🇮", Senegal: "🇸🇳", Bahamas: "🇧🇸",
 };
-
-const CONFERENCES = {
-  east: {
-    label: "동부",
-    order: [
-      "utsunomiya", "chiba_jets", "gunma", "alvark_tokyo", "levanga", "sendai",
-      "yokohama", "sun_rockers", "koshigaya", "altiri_chiba", "ibaraki", "kawasaki", "akita",
-    ],
-  },
-  west: {
-    label: "서부",
-    order: [
-      "nagasaki", "mikawa", "ryukyu", "nagoya_dd", "sanen", "saga", "hiroshima", "shimane",
-      "osaka", "shiga", "kyoto", "toyama", "fighting_eagles",
-      "shinshu", "kobe",
-    ],
-  },
-};
-
-const SORTS = {
-  avg_min: { label: "평균 시간", timeKey: "minutes_avg", secKey: "minutes_avg_sec", desc: true },
-  total_min: { label: "총 시간", timeKey: "minutes_total", secKey: "minutes_total_sec", desc: true },
-  number: { label: "등번호", secKey: "number", desc: false },
-  name: { label: "이름", secKey: "name_korean", desc: false },
-};
-
-function teamList(conf) {
-  const order = CONFERENCES[conf].order;
-  return order
-    .filter((id) => ROSTERS.teams[id])
-    .map((id) => ({ id, conference: conf, ...ROSTERS.teams[id] }));
-}
-
-function hexLuminance(hex) {
-  if (!hex || !hex.startsWith("#") || hex.length < 7) return 1;
-  const r = parseInt(hex.slice(1, 3), 16) / 255;
-  const g = parseInt(hex.slice(3, 5), 16) / 255;
-  const b = parseInt(hex.slice(5, 7), 16) / 255;
-  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
-}
 
 const TEAM_CARD_HIGHLIGHT = {
   gunma: "#38BDF8",
@@ -227,7 +203,7 @@ function PlayerCard({ player, team, idx, sortBy, role }) {
 }
 
 export default function RosterPage() {
-  const [conf, setConf] = useState("west");
+  const { conf } = useRosterConference();
   const [sortBy, setSortBy] = useState("avg_min");
   const teams = useMemo(() => teamList(conf), [conf]);
   const [selId, setSelId] = useState("nagasaki");
@@ -260,39 +236,6 @@ export default function RosterPage() {
 
   return (
     <div className="roster-page">
-      <div className="roster-toolbar">
-        <div className="roster-toolbar-title">
-          <div className="roster-toolbar-heading">B.PREMIER {CONFERENCES[conf].label}</div>
-          <div className="roster-toolbar-meta">{ROSTERS.season} · 갱신 {ROSTERS.updated} · {totalPlayers}명</div>
-        </div>
-        <div className="roster-conf-switch">
-          {Object.entries(CONFERENCES).map(([key, { label }]) => (
-            <button key={key} type="button" onClick={() => setConf(key)} className={conf === key ? "active" : ""}>
-              {label}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div className="roster-team-tabs">
-        <div className="roster-team-tabs-inner">
-          {teams.map((t, i) => {
-            const active = selId === t.id;
-            return (
-              <button key={t.id} type="button" onClick={() => setSelId(t.id)} className={active ? "active" : ""} style={{
-                borderBottomColor: active ? t.accent : "transparent",
-                background: active ? `${t.primary}44` : "transparent",
-                color: active ? t.accent : "#64748B",
-              }}>
-                <img src={t.logo_url} alt="" style={{ width: 18, height: 18, objectFit: "contain", opacity: active ? 1 : 0.55 }} />
-                <span>{String(i + 1).padStart(2, "0")} {t.name_korean}</span>
-                <span className="count">({t.players.length})</span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
       {teams.length === 0 ? (
         <div style={{ textAlign: "center", padding: "64px 22px", color: "#64748B" }}>
           {CONFERENCES[conf].label} 데이터 없음.<br />
@@ -300,6 +243,35 @@ export default function RosterPage() {
         </div>
       ) : (
         <>
+          <div className="roster-subbar">
+            <label className="roster-team-picker">
+              <span>팀</span>
+              <select
+                value={selId}
+                onChange={(e) => setSelId(e.target.value)}
+                aria-label="팀 선택"
+              >
+                {teams.map((t, i) => (
+                  <option key={t.id} value={t.id}>
+                    {String(i + 1).padStart(2, "0")} {t.name_korean} ({t.players.length})
+                  </option>
+                ))}
+              </select>
+            </label>
+            <span className="roster-subbar-meta">
+              {ROSTERS.season} · 갱신 {ROSTERS.updated} · {CONFERENCES[conf].label} {totalPlayers}명
+            </span>
+            <div className="roster-sort">
+              <span>정렬</span>
+              <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+                {Object.entries(SORTS).map(([key, { label }]) => (
+                  <option key={key} value={key}>{label}</option>
+                ))}
+              </select>
+              <span className="count">{players.length}명</span>
+            </div>
+          </div>
+
           <div className="roster-team-header" style={{ borderBottomColor: `${sel.primary}44`, background: `linear-gradient(90deg, ${sel.primary}33, transparent)` }}>
             <img src={sel.logo_url} alt="" style={{ width: 44, height: 44, objectFit: "contain" }} />
             <div>
@@ -310,15 +282,6 @@ export default function RosterPage() {
                 {" · "}
                 <span style={{ color: sel.primary }}>벤치 {rotation.benchIds.size}</span>
               </div>
-            </div>
-            <div className="roster-sort">
-              <span>정렬</span>
-              <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-                {Object.entries(SORTS).map(([key, { label }]) => (
-                  <option key={key} value={key}>{label}</option>
-                ))}
-              </select>
-              <span className="count">{players.length}명</span>
             </div>
           </div>
 
