@@ -11,9 +11,15 @@ credentials.json
 
 # crawl/debug artifacts
 _*.html
+_*.txt
 minutes_snippet.txt
 players.tsv
 *.csv
+*.xlsx
+
+# research pipeline (로컬 전용 — calc만 배포)
+research/reports/
+research/**/__pycache__/
 
 # unrelated local folder
 2021147566-profile/

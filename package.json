@@ -4,13 +4,14 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node scripts/copy-spa-fallback.cjs",
     "preview": "vite preview",
     "crawl": "python crawl_bleague_rosters.py"
   },
   "dependencies": {
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^7.6.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.4",

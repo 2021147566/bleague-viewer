@@ -1,17 +1,125 @@
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+@import "./theme.css";
+
+.roster-page {
+  min-height: calc(100vh - var(--nav-h));
+  color: var(--text);
 }
 
-html,
-body {
-  margin: 0;
-  padding: 0;
-  min-height: 100%;
-  background: #020617;
+.roster-toolbar {
+  position: sticky;
+  top: var(--nav-h);
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 0.85rem 1.25rem;
+  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--border);
 }
 
-#root {
-  min-height: 100vh;
+.roster-toolbar-heading {
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+.roster-toolbar-meta {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  margin-top: 0.15rem;
+}
+
+.roster-conf-switch {
+  display: flex;
+  gap: 0.35rem;
+  margin-left: auto;
+  background: var(--bg);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius);
+  padding: 0.25rem;
+}
+
+.roster-conf-switch button {
+  border: none;
+  cursor: pointer;
+  border-radius: 7px;
+  padding: 0.45rem 0.85rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  background: transparent;
+  color: var(--text-dim);
+}
+
+.roster-conf-switch button.active {
+  background: var(--panel-hover);
+  color: var(--text);
+}
+
+.roster-team-tabs {
+  overflow-x: auto;
+  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: calc(var(--nav-h) + 58px);
+  z-index: 80;
+}
+
+.roster-team-tabs-inner {
+  display: flex;
+  min-width: max-content;
+}
+
+.roster-team-tabs button {
+  padding: 0.65rem 0.9rem;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  border-bottom: 3px solid transparent;
+  background: transparent;
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+.roster-team-tabs button .count {
+  font-size: 0.68rem;
+  opacity: 0.7;
+}
+
+.roster-team-header {
+  padding: 1.1rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.roster-sort {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+}
+
+.roster-sort select {
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius);
+  padding: 0.4rem 0.65rem;
+  font-size: 0.78rem;
+}
+
+.roster-sort .count {
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.calc-page {
+  min-height: calc(100vh - var(--nav-h));
 }
